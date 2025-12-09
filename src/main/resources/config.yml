@@ -1,0 +1,165 @@
+# Placeholders
+#
+
+scenes:
+  close:
+    title: "Leave"
+    icon: "twemoji:door"
+    description: "Close all things"
+    type: stateless
+    actions:
+      - "[RUN] all turn_off"
+  fast_heating:
+    title: "Heat"
+    type: stateless
+    icon: "noto:fire"
+    actions:
+      - "[RUN] heating turn_on time=60"
+  balcony:
+    title: "Heat"
+    icon: "noto:fire"
+    type: stateful
+    enable_actions:
+      - "[RUN] leds turn_on"
+    disable_actions:
+      - "[RUN] leds turn_off"
+
+# Provide tokens and
+access:
+  - token: test
+    control: [DEVICES]
+  - token: not
+    control: [ALL]
+
+# UI types are hardcoded into the frontend with buttons
+# When coding this config the current ui_types are:
+# - "heating" will need some default buttons 4318500026933
+# - "page-with-buttons" will auto_load any button you provided
+devices:
+  leds:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "leds"
+          state: "1"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: asd
+        params:
+          element: "leds"
+          state: "0"
+      turn:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "leds"
+          state: "%state%"
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/get"
+        response:
+          mode: forward
+        params:
+          element: "leds"
+  bulbs:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "bulbs"
+          state: "1"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "bulbs"
+          state: "0"
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/get"
+        response:
+          mode: forward
+        params:
+          element: "bulbs"
+  wall:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "wall"
+          state: "1"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "wall"
+          state: "0"
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/get"
+        response:
+          mode: forward
+        params:
+          element: "wall"
+#
+# ui_types:
+# basic_nest (Buttons and Data)
+# for any state buttons, requests must have a state response, else the state will remain 0
+# for data you can specify the r
+#
+nests:
+  balcony:
+    meta:
+      ui_type: "basic_nest"
+      title: "Balcony"
+    data:
+      leds_example:
+        id: "leds"
+        title: "The leds are"
+        icon: "mdi:led-strip"
+        value:
+          device: "leds"
+          action: "get_state"
+          read_parameter: "state"
+    buttons:
+      leds:
+        id: "leds"
+        title: "Leds"
+        icon: "mdi:led-strip"
+        type: state
+        state:
+          device: "leds"
+          action: "get_state"
+        enable_actions:
+          device: "leds"
+          action: "turn_on"
+        disable_actions:
+          device: "leds"
+          action: "turn_off"
+      bulbs:
+        id: "bulbs"
+        title: "Bulbs"
+        icon: "hugeicons:garlands"
+        type: state
+        enable_actions:
+          - "[ACTION] bulbs turn_on"
+        disable_actions:
+          - "[ACTION] bulbs turn_off"
