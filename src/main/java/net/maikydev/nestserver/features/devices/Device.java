@@ -5,7 +5,6 @@ import net.maikydev.duckycore.data.json.objects.JsonObject;
 import net.maikydev.duckycore.data.yaml.YamlConfig;
 import net.maikydev.nestserver.exceptions.ActionHandleException;
 import net.maikydev.nestserver.features.devices.runner.Runner;
-import net.maikydev.nestserver.features.devices.runner.RunnerRegistry;
 
 import java.util.HashMap;
 
@@ -19,7 +18,7 @@ public class Device {
         Device device = new Device();
         device.id = path.substring(path.lastIndexOf('.') + 1);
         config.getSubConfiguration(path + ".actions").keySet().forEach(key ->
-                device.actions.put(key, RunnerRegistry.FACTORY.createRunner(config, path + ".actions." + key))
+                device.actions.put(key, DeviceRegistry.DEVICE.getRunnersRegistry().createRunner(config, path + ".actions." + key))
         );
         return device;
     }

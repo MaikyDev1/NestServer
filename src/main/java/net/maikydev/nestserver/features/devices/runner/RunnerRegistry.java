@@ -5,12 +5,11 @@ import net.maikydev.nestserver.exceptions.ConfigParserException;
 
 import java.util.HashMap;
 
-public enum RunnerRegistry {
-    FACTORY;
+public class RunnerRegistry {
 
     private final HashMap<String, RunnerBuilder> runners = new HashMap<>();
 
-    public void loadDefaults() {
+    public RunnerRegistry() {
         addRunner(new HttpRunnerBuilder());
     }
 

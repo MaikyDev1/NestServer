@@ -33,6 +33,14 @@ public class SceneHandler implements HttpHandler {
                 this.handleTurnScene(exchange, url[0], null);
                 return;
             }
+
+            if (url.length == 3 && url[1].equals("run")) {
+                boolean state = url[2].equalsIgnoreCase("true") ||
+                        url[2].equalsIgnoreCase("1") ||
+                        url[2].equalsIgnoreCase("on");
+                this.handleTurnScene(exchange, url[0], state);
+                return;
+            }
         } catch (Exception e) {
             HttpUtils.respondWithJson(exchange, 404, JsonObject.newJsonObject().addNewField("error", "While running we got: " + e.getMessage()));
             e.printStackTrace();
@@ -61,7 +69,7 @@ public class SceneHandler implements HttpHandler {
     private JsonObject getSceneDetails(Scene scene) {
         return JsonObject.newJsonObject()
                 .addNewField("id", scene.getId())
-                .addNewField("scene_type", scene.getSceneType())
+                .addNewField("scene_type", String.valueOf(scene.getSceneType()))
                 .addNewField("current_state", scene.isCurrentState())
                 .addNewField("name", scene.getHtmlMeta().name())
                 .addNewField("description", scene.getHtmlMeta().description())
@@ -80,7 +88,7 @@ public class SceneHandler implements HttpHandler {
                 if (newState == null) {
                     scene.turnState();
                 } else {
-                    if (scene.isCurrentState())
+                    if (newState)
                         scene.runTurnOffActions();
                     else
                         scene.runTurnOnActions();

@@ -37,6 +37,7 @@ public final class HttpRunner implements Runner {
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(this.buildUrl(placeholders)).GET().build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Body: " + response.body());
             return switch (responseType) {
                 case "FORWARD" -> (JsonObject) DuckyJson.serialization(response.body());
                 case "NOTHING" -> JsonObject.newJsonObject();

@@ -14,8 +14,9 @@ public class HttpRunnerBuilder implements RunnerBuilder {
     @Override
     public Runner createRunner(YamlConfig config, String path) throws NullPointerException {
         HashMap<String, String> params = new HashMap<>();
-        config.getSubConfiguration(path + ".params").forEach((k, v) ->
-                params.put(k, String.valueOf(v)));
+        if (config.contains(path + ".params"))
+            config.getSubConfiguration(path + ".params").forEach((k, v) ->
+                    params.put(k, String.valueOf(v)));
         return new HttpRunner(
                 config.getString(path + ".url"),
                 params,

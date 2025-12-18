@@ -4,8 +4,8 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import lombok.Getter;
 import net.maikydev.duckycore.data.yaml.YamlConfig;
+import net.maikydev.nestserver.features.access.AccessController;
 import net.maikydev.nestserver.features.devices.DeviceRegistry;
-import net.maikydev.nestserver.features.devices.runner.RunnerRegistry;
 import net.maikydev.nestserver.features.sceans.SceneRegistry;
 import net.maikydev.nestserver.routes.device.DeviceHandler;
 import net.maikydev.nestserver.routes.scene.SceneHandler;
@@ -20,14 +20,24 @@ public enum NestServer {
     SERVER;
 
     private YamlConfig config;
+    private YamlConfig devicesConfig;
+    private YamlConfig nestsConfig;
     private HttpServer server;
+
+    private AccessController accessController;
 
     public void onStart() {
         this.config = YamlConfig.fromFileName("config.yml");
-        RunnerRegistry.FACTORY.loadDefaults();
+        this.devicesConfig = YamlConfig.fromFileName("devices.yml");
+        this.nestsConfig = YamlConfig.fromFileName("nests.yml");
+        loadConfigs();
         DeviceRegistry.DEVICE.loadDevices();
         SceneRegistry.SCENE.loadScenes();
         startWebServer();
+    }
+
+    private void loadConfigs() {
+        accessController = AccessController.wrapFromConfig(config);
     }
 
     private void startWebServer() {

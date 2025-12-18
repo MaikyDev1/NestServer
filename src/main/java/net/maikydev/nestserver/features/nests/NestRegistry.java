@@ -1,21 +1,19 @@
-package net.maikydev.nestserver.features.devices;
+package net.maikydev.nestserver.features.nests;
 
 import lombok.Getter;
 import net.maikydev.nestserver.NestServer;
-import net.maikydev.nestserver.features.devices.runner.RunnerRegistry;
+import net.maikydev.nestserver.features.devices.Device;
 
 import java.util.HashMap;
 
-public enum DeviceRegistry {
-    DEVICE;
+public enum NestRegistry {
+    NESTS;
 
     @Getter
-    private final HashMap<String, Device> devices = new HashMap<>();
-    @Getter
-    private final RunnerRegistry runnersRegistry = new RunnerRegistry();
+    private final HashMap<String, Nest> nests = new HashMap<>();
 
     public void loadDevices() {
-        NestServer.SERVER.getConfig().getSubConfiguration("devices").keySet().forEach(key -> {
+        NestServer.SERVER.getNestsConfig().getSubConfiguration("devices").keySet().forEach(key -> {
             devices.put(key, Device.wrapNewDevice(NestServer.SERVER.getConfig(), "devices." + key));
         });
     }

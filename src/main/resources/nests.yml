@@ -1,0 +1,55 @@
+scenes:
+  close:
+    title: "Leave"
+    icon: "twemoji:door"
+    description: "Close all things"
+    type: stateless
+    actions:
+      - "[RUN] all turn_off"
+  fast_heating:
+    title: "Heat"
+    type: stateless
+    icon: "noto:fire"
+    actions:
+      - "[RUN] heating turn_on time=60"
+  balcony:
+    title: "Balcony"
+    icon: "ic:twotone-balcony"
+    type: stateful
+    enable_actions:
+      - "[RUN] leds turn_on"
+    disable_actions:
+      - "[RUN] leds turn_off"
+
+nests:
+  balcony:
+    meta:
+      ui_type: "basic_nest"
+      title: "Balcony"
+    data:
+      leds_example:
+        id: "leds"
+        title: "The leds are"
+        icon: "mdi:led-strip"
+        data_type: "temperature"
+        value:
+          device: "leds"
+          action: "get_state"
+          read_parameter: "state"
+    buttons:
+      leds:
+        id: "leds"
+        meta:
+          title: "Leds"
+          icon: "mdi:led-strip"
+          type: state
+          color: "#7315d1"
+        get_state:
+          device: "leds"
+          action: "get_state"
+        enable_actions:
+          device: "leds"
+          action: "turn_on"
+        disable_actions:
+          device: "leds"
+          action: "turn_off"

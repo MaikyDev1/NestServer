@@ -1,0 +1,117 @@
+devices:
+  leds:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "leds"
+          state: "1"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: asd
+        params:
+          element: "leds"
+          state: "0"
+      turn:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "leds"
+          state: "%state%"
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/get"
+        response:
+          mode: forward
+        params:
+          element: "leds"
+  bulbs:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "bulbs"
+          state: "1"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "bulbs"
+          state: "0"
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/get"
+        response:
+          mode: forward
+        params:
+          element: "bulbs"
+  wall:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "wall"
+          state: "1"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/set"
+        response:
+          mode: forward
+        params:
+          element: "wall"
+          state: "0"
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/switch/balcony/get"
+        response:
+          mode: forward
+        params:
+          element: "wall"
+  heating:
+    actions:
+      turn_on:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/heating/start"
+        response:
+          mode: forward
+        params:
+          time: "%time%"
+      add_time:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/heating/time/add"
+        response:
+          mode: forward
+        params:
+          time: "%time%"
+      remove_time:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/heating/time/remove"
+        response:
+          mode: forward
+        params:
+          time: "%time%"
+      turn_off:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/heating/stop"
+        response:
+          mode: forward
+      get_state:
+        type: "http"
+        url: "http://10.0.0.200/api/v1/heating/data"
+        response:
+          mode: forward
