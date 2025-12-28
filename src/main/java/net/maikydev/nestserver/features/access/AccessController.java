@@ -22,18 +22,18 @@ public class AccessController {
         // accounts
         if (config.contains("accounts")) {
             controller.accounts = new HashMap<>();
-            config.getSubConfiguration("account").keySet().forEach(key -> {
-                if (config.contains("account." + key + ".password"))
+            config.getSubConfiguration("accounts").keySet().forEach(key -> {
+                if (config.contains("accounts." + key + ".password"))
                     controller.accounts.put(key, new Account(
-                            config.getString("account." + key + ".username"),
-                            config.getString("account." + key + ".password"),
+                            config.getString("accounts." + key + ".username"),
+                            config.getString("accounts." + key + ".password"),
                             null
                     ));
-                if (config.contains("account." + key + ".key"))
+                if (config.contains("accounts." + key + ".key"))
                     controller.accounts.put(key, new Account(
                             null,
                             null,
-                            config.getString("account." + key + ".key")
+                            config.getString("accounts." + key + ".key")
                     ));
             });
         }

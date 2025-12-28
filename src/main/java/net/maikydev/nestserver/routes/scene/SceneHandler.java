@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.maikydev.duckycore.data.json.objects.JsonArray;
 import net.maikydev.duckycore.data.json.objects.JsonObject;
+import net.maikydev.nestserver.NestServer;
 import net.maikydev.nestserver.features.devices.Device;
 import net.maikydev.nestserver.features.devices.DeviceRegistry;
 import net.maikydev.nestserver.features.sceans.Scene;
@@ -53,12 +54,12 @@ public class SceneHandler implements HttpHandler {
     private void handleGetScenes(HttpExchange exchange, String key) throws IOException {
         if (key.equalsIgnoreCase("all")) {
             JsonArray array = JsonArray.newJsonArray();
-            SceneRegistry.SCENE.getScenes().values().forEach((scene) -> array.addValues(this.getSceneDetails(scene)));
+            NestServer.SERVER.getSceneRegistry().getScenes().values().forEach((scene) -> array.addValues(this.getSceneDetails(scene)));
             HttpUtils.respondWithJson(exchange, 200, array);
             return;
         }
 
-        Scene scene = SceneRegistry.SCENE.getScene(key);
+        Scene scene = NestServer.SERVER.getSceneRegistry().getScene(key);
         if (scene != null) {
             HttpUtils.respondWithJson(exchange, 200, this.getSceneDetails(scene));
             return;
@@ -77,7 +78,7 @@ public class SceneHandler implements HttpHandler {
     }
 
     private void handleTurnScene(HttpExchange exchange, String sceneKey, Boolean newState) throws IOException {
-        Scene scene = SceneRegistry.SCENE.getScene(sceneKey);
+        Scene scene = NestServer.SERVER.getSceneRegistry().getScene(sceneKey);
         if (scene == null) {
             HttpUtils.respondWithJson(exchange, 404, JsonObject.newJsonObject().addNewField("error", "The Scene was not found!"));
             return;

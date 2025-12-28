@@ -3,9 +3,13 @@ package net.maikydev.nestserver;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import lombok.Getter;
+import net.maikydev.duckycore.data.json.DuckyJson;
 import net.maikydev.duckycore.data.yaml.YamlConfig;
 import net.maikydev.nestserver.features.access.AccessController;
 import net.maikydev.nestserver.features.devices.DeviceRegistry;
+import net.maikydev.nestserver.features.nests.NestRegistry;
+import net.maikydev.nestserver.features.nests.elements.Button;
+import net.maikydev.nestserver.features.sceans.Scene;
 import net.maikydev.nestserver.features.sceans.SceneRegistry;
 import net.maikydev.nestserver.routes.device.DeviceHandler;
 import net.maikydev.nestserver.routes.scene.SceneHandler;
@@ -25,19 +29,23 @@ public enum NestServer {
     private HttpServer server;
 
     private AccessController accessController;
+    private SceneRegistry sceneRegistry;
+    private NestRegistry nestRegistry;
 
     public void onStart() {
         this.config = YamlConfig.fromFileName("config.yml");
         this.devicesConfig = YamlConfig.fromFileName("devices.yml");
         this.nestsConfig = YamlConfig.fromFileName("nests.yml");
         loadConfigs();
-        DeviceRegistry.DEVICE.loadDevices();
-        SceneRegistry.SCENE.loadScenes();
         startWebServer();
     }
 
     private void loadConfigs() {
         accessController = AccessController.wrapFromConfig(config);
+        //DeviceRegistry.DEVICE.loadDevices();
+        //sceneRegistry = new SceneRegistry().addScenes(nestsConfig, "scenes");
+        nestRegistry = new NestRegistry().addNests(nestsConfig, "nests");
+        System.out.println(DuckyJson.deserialization(nestRegistry.getNest("balcony").toJsonObject()));
     }
 
     private void startWebServer() {

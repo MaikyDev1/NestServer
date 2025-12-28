@@ -25,7 +25,8 @@ public class Scene {
         scene.htmlMeta = new HtmlMeta(
                 config.getString(path + ".title"),
                 config.contains(path + ".description") ? config.getString(path + ".description") : "",
-                config.getString(path + ".icon")
+                config.getString(path + ".icon"),
+                config.contains(path + ".color") ? config.getString(path + ".color") : ""
         );
         scene.sceneType = SceneType.valueOf(config.getString(path + ".type").toUpperCase(Locale.ROOT));
         switch (scene.sceneType) {

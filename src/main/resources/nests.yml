@@ -29,9 +29,10 @@ nests:
     data:
       leds_example:
         id: "leds"
-        title: "The leds are"
-        icon: "mdi:led-strip"
-        data_type: "temperature"
+        meta:
+          title: "The leds are"
+          icon: "mdi:led-strip"
+          data_type: "temperature"
         value:
           device: "leds"
           action: "get_state"
@@ -47,6 +48,9 @@ nests:
         get_state:
           device: "leds"
           action: "get_state"
+          params:
+            test: "miaw"
+            miaow: "ceva"
         enable_actions:
           device: "leds"
           action: "turn_on"

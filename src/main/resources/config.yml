@@ -1,6 +1,6 @@
 accounts:
   ewelink:
-    user: "MaikyDev"
+    username: "MaikyDev"
     password: "Password"
 
 # Mode: none, key
