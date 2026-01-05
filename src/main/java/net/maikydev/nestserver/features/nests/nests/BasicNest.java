@@ -17,6 +17,7 @@ import java.util.Locale;
 public class BasicNest implements Nest {
 
     private NestType nestType;
+    private String id;
     private final List<Element> buttons = new ArrayList<>();
     private final List<Element> data = new ArrayList<>();
     private HtmlMeta htmlMeta;
@@ -26,9 +27,10 @@ public class BasicNest implements Nest {
         basicNest.htmlMeta = new HtmlMeta(
                 config.contains(path + ".meta.title") ? config.getString(path + ".meta.title") : "No Title",
                 config.contains(path + ".meta.description") ? config.getString(path + ".meta.description") : null,
-                null,
+                config.contains(path + ".meta.icon") ? config.getString(path + ".meta.icon") : "",
                 config.contains(path + ".meta.color") ? config.getString(path + ".meta.color") : "#ffffff"
         );
+        basicNest.id = path.substring(path.lastIndexOf('.') + 1);
         basicNest.nestType = NestType.valueOf(config.getString(path + ".meta.ui_type").toUpperCase(Locale.ROOT));
         config.getSubConfiguration(path + ".data").keySet().forEach(k -> basicNest.data.add(Data.wrapFromConfig(config, path + ".data." + k)));
         config.getSubConfiguration(path + ".buttons").keySet().forEach(k -> basicNest.buttons.add(Button.wrapFromConfig(config, path + ".buttons." + k)));
@@ -36,9 +38,19 @@ public class BasicNest implements Nest {
     }
 
     @Override
+    public JsonObject toHeaderJsonObject() {
+        JsonObject object = JsonObject.newJsonObject();
+        object.addNewField("id", id);
+        object.addNewField("meta", htmlMeta.toJson().addNewField("ui_type", nestType.name()));
+        object.addNewField("devices_count", buttons.size() + data.size());
+        return object;
+    }
+
+    @Override
     public JsonObject toJsonObject() {
         JsonObject object = JsonObject.newJsonObject();
         object.addNewField("meta", htmlMeta.toJson().addNewField("ui_type", nestType.name()));
+        object.addNewField("id", id);
 
         JsonArray dataArray = JsonArray.newJsonArray();
         data.forEach((e) -> dataArray.addValues(e.toJsonObject()));
@@ -46,7 +58,7 @@ public class BasicNest implements Nest {
 
         JsonArray buttonArray = JsonArray.newJsonArray();
         buttons.forEach((e) -> buttonArray.addValues(e.toJsonObject()));
-        object.addNewField("button", buttonArray);
+        object.addNewField("buttons", buttonArray);
         return object;
     }
 }

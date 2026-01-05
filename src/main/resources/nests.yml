@@ -26,17 +26,27 @@ nests:
     meta:
       ui_type: "basic_nest"
       title: "Balcony"
+      color: "#7735b5"
+      icon: "cbi:roomsbalcony"
     data:
-      leds_example:
-        id: "leds"
+      bedroom_sensor:
+        id: "bedroom_sensor"
         meta:
-          title: "The leds are"
-          icon: "mdi:led-strip"
+          title: "Bedroom Temperature"
           data_type: "temperature"
         value:
-          device: "leds"
+          device: "bedroom_sensor"
           action: "get_state"
-          read_parameter: "state"
+          read_parameter: "temperature"
+      bedroom__hum_sensor:
+        id: "bedroom__hum_sensor"
+        meta:
+          title: "Bedroom Humidity"
+          data_type: "humidity"
+        value:
+          device: "bedroom_sensor"
+          action: "get_state"
+          read_parameter: "humidity"
     buttons:
       leds:
         id: "leds"
@@ -48,12 +58,79 @@ nests:
         get_state:
           device: "leds"
           action: "get_state"
-          params:
-            test: "miaw"
-            miaow: "ceva"
         enable_actions:
           device: "leds"
           action: "turn_on"
         disable_actions:
           device: "leds"
           action: "turn_off"
+      bulbs:
+        id: "bulbs"
+        meta:
+          title: "Bulbs"
+          icon: "hugeicons:garlands"
+          type: state
+          color: "#e3793b"
+        get_state:
+          device: "bulbs"
+          action: "get_state"
+        enable_actions:
+          device: "bulbs"
+          action: "turn_on"
+        disable_actions:
+          device: "bulbs"
+          action: "turn_off"
+      wall:
+        id: "wall"
+        meta:
+          title: "Wall"
+          icon: "memory:wall-fill"
+          type: state
+          color: "#5be3a6"
+        get_state:
+          device: "wall"
+          action: "get_state"
+        enable_actions:
+          device: "wall"
+          action: "turn_on"
+        disable_actions:
+          device: "wall"
+          action: "turn_off"
+  heating:
+    meta:
+      ui_type: "thermostat_nest"
+      title: "Thermostat"
+      color: "#d96111"
+      icon: "cbi:wiser-heating-ctl-off"
+    configuration:
+      functionality_type: timed
+      energy_consumption:
+        per_hour: 23
+        measure_unit: "kWh"
+        price_per_unit: 0.217
+    get_state:
+      device: "heating"
+      action: "get_state"
+      read_parameter: "state"
+    get_time:
+      device: "heating"
+      action: "get_state"
+      read_parameter: "time_left"
+    turn_on:
+      device: "heating"
+      action: "turn_on"
+      params:
+        time: 90
+    turn_off:
+      device: "heating"
+      action: "turn_off"
+    add_time:
+      device: "heating"
+      action: "add_time"
+      params:
+        time: 30
+    remove_time:
+      device: "heating"
+      action: "remove_time"
+      params:
+        time: 30

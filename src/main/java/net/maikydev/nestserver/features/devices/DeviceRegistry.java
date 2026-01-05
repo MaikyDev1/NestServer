@@ -1,6 +1,7 @@
 package net.maikydev.nestserver.features.devices;
 
 import lombok.Getter;
+import net.maikydev.duckycore.data.yaml.YamlConfig;
 import net.maikydev.nestserver.NestServer;
 import net.maikydev.nestserver.features.devices.runner.RunnerRegistry;
 
@@ -14,10 +15,14 @@ public enum DeviceRegistry {
     @Getter
     private final RunnerRegistry runnersRegistry = new RunnerRegistry();
 
-    public void loadDevices() {
-        NestServer.SERVER.getConfig().getSubConfiguration("devices").keySet().forEach(key -> {
-            devices.put(key, Device.wrapNewDevice(NestServer.SERVER.getConfig(), "devices." + key));
+    public void addDevices(YamlConfig config, String path) {
+        config.getSubConfiguration(path).keySet().forEach(key -> {
+            devices.put(key, Device.wrapNewDevice(config, path + "." + key));
         });
+    }
+
+    public void addDevice(Device device) {
+        devices.put(device.getId(), device);
     }
 
     public Device getDevice(String key) {

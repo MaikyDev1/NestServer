@@ -1,0 +1,28 @@
+#run_at:
+#  days: [ mon, wed, fri ]
+#  times: "09:00"
+
+#run_at:
+#  time: "09:00"
+
+#run_at:
+#  time: "09:00"
+
+# run any [number] hours
+
+#run_at:
+#  hours: [number]
+
+tasks:
+  leds:
+    turn_on:
+      schedule:
+        days: [ mon, wed, fri ]
+        time: "14:40"
+      commands:
+        - "[SAY] leds turn_on"
+    turn_off:
+      schedule:
+        time: "13:12"
+      commands:
+        - "[SAY] leds turn_off"

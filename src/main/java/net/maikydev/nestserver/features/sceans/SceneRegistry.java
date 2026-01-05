@@ -15,7 +15,7 @@ public class SceneRegistry {
 
     public SceneRegistry addScenes(YamlConfig config, String path) {
         config.getSubConfiguration(path).keySet().forEach(key -> {
-            scenes.put(key, Scene.wrapNewScene(NestServer.SERVER.getConfig(), "scenes." + key));
+            scenes.put(key, Scene.wrapNewScene(config, path + "." + key));
         });
         return this;
     }

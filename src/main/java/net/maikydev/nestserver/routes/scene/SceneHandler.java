@@ -72,7 +72,7 @@ public class SceneHandler implements HttpHandler {
                 .addNewField("id", scene.getId())
                 .addNewField("scene_type", String.valueOf(scene.getSceneType()))
                 .addNewField("current_state", scene.isCurrentState())
-                .addNewField("name", scene.getHtmlMeta().name())
+                .addNewField("name", scene.getHtmlMeta().title())
                 .addNewField("description", scene.getHtmlMeta().description())
                 .addNewField("icon", scene.getHtmlMeta().icon());
     }

@@ -10,8 +10,6 @@ import net.maikydev.nestserver.utils.HttpUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
 
 public class DeviceHandler implements HttpHandler {
     @Override

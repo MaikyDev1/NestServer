@@ -12,5 +12,6 @@ import java.util.List;
 public interface Nest {
 
     JsonObject toJsonObject();
+    JsonObject toHeaderJsonObject();
 
 }
