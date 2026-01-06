@@ -16,6 +16,7 @@ import net.maikydev.nestserver.routes.device.DeviceHandler;
 import net.maikydev.nestserver.routes.nest.NestHandler;
 import net.maikydev.nestserver.routes.scene.SceneHandler;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -37,10 +38,14 @@ public enum NestServer {
     private TasksController tasksController;
 
     public void onStart() {
-        this.config = YamlConfig.fromFileName("config.yml");
-        this.devicesConfig = YamlConfig.fromFileName("devices.yml");
-        this.nestsConfig = YamlConfig.fromFileName("nests.yml");
-        this.data = YamlConfig.fromFileName("data.yml");
+//        this.config = YamlConfig.fromFileName("config.yml");
+//        this.devicesConfig = YamlConfig.fromFileName("devices.yml");
+//        this.nestsConfig = YamlConfig.fromFileName("nests.yml");
+//        this.data = YamlConfig.fromFileName("data.yml");
+        this.config = YamlConfig.fromFile(new File("config.yml"));
+        this.devicesConfig = YamlConfig.fromFile(new File("devices.yml"));
+        this.nestsConfig = YamlConfig.fromFile(new File("nests.yml"));
+        this.data = YamlConfig.fromFile(new File("data.yml"));
         loadConfigs();
         tasksController.start();
         startWebServer();
