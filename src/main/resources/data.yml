@@ -14,15 +14,18 @@
 #  hours: [number]
 
 tasks:
-  leds:
-    turn_on:
+  balcony:
+    at_sunrise:
       schedule:
-        days: [ mon, wed, fri ]
-        time: "14:40"
+        time: '9:00'
       commands:
-        - "[SAY] leds turn_on"
-    turn_off:
+        - '[DEVICE] leds turn_off'
+        - '[DEVICE] bulbs turn_off'
+        - '[DEVICE] wall turn_off'
+    at_sunset:
       schedule:
-        time: "13:12"
+        time: '18:30'
       commands:
-        - "[SAY] leds turn_off"
+        - '[DEVICE] leds turn_on'
+        - '[DEVICE] bulbs turn_on'
+        - '[DEVICE] wall turn_on'

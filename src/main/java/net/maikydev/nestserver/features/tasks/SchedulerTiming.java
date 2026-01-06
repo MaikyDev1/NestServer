@@ -1,5 +1,6 @@
 package net.maikydev.nestserver.features.tasks;
 
+import net.maikydev.duckycore.data.json.objects.JsonObject;
 import net.maikydev.duckycore.data.yaml.YamlConfig;
 
 import java.time.Duration;
@@ -23,6 +24,11 @@ public class SchedulerTiming implements Timing {
         return new SchedulerTiming(Integer.parseInt(time[0]), Integer.parseInt(time[1]));
     }
 
+    public static SchedulerTiming wrapFromJson(JsonObject object) {
+        String[] time = object.findKey("time").getString().split(":");
+        return new SchedulerTiming(Integer.parseInt(time[0]), Integer.parseInt(time[1]));
+    }
+
     @Override
     public boolean itsTheTimeToRun() {
         LocalDateTime now = LocalDateTime.now();
@@ -34,6 +40,11 @@ public class SchedulerTiming implements Timing {
     @Override
     public void saveToConfig(YamlConfig config, String path) {
         config.setData(path + ".time", hour + ":" + minute);
+    }
+
+    @Override
+    public JsonObject getTimingDetails() {
+        return JsonObject.newJsonObject().addNewField("time", hour + ":" + minute);
     }
 
     private void updateNewRun() {

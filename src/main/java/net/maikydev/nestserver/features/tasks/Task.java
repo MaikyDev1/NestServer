@@ -1,13 +1,18 @@
 package net.maikydev.nestserver.features.tasks;
 
+import lombok.Getter;
+import net.maikydev.duckycore.data.json.objects.JsonObject;
+import net.maikydev.duckycore.data.json.objects.JsonValue;
 import net.maikydev.duckycore.data.yaml.YamlConfig;
 import net.maikydev.nestserver.features.nests.elements.DeviceCall;
 import net.maikydev.nestserver.features.sceans.Scene;
 import net.maikydev.nestserver.utils.CommandRunner;
+import net.maikydev.nestserver.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Task {
 
     private String id;
@@ -22,6 +27,14 @@ public class Task {
         task.timing = SchedulerTiming.wrapFromConfig(config, path + ".schedule");
         task.oneTime = config.contains(path + ".one_time") ? config.getBoolean(path + ".one_time") : false;
         task.commands = config.getStringList(path + ".commands");
+        return task;
+    }
+
+    public static Task wrapTaskFromJson(JsonObject object) {
+        Task task = new Task();
+        task.id = object.findKey("id").getString();
+        task.timing = SchedulerTiming.wrapFromJson(object.findKey("schedule").getObject());
+        task.commands = object.findKey("commands").getArray().getObjects().stream().map(k -> k.getDownstream().getFirst().getString()).toList();
         return task;
     }
 
