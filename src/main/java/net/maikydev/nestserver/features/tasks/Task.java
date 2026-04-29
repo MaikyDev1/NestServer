@@ -23,7 +23,6 @@ public class Task {
     public static Task wrapTaskFromConfig(YamlConfig config, String path) {
         Task task = new Task();
         task.id = path.substring(path.lastIndexOf('.') + 1);
-        System.out.println(path);
         task.timing = SchedulerTiming.wrapFromConfig(config, path + ".schedule");
         task.oneTime = config.contains(path + ".one_time") ? config.getBoolean(path + ".one_time") : false;
         task.commands = config.getStringList(path + ".commands");

@@ -1,26 +1,18 @@
 package net.maikydev.nestserver;
 
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 import lombok.Getter;
-import net.maikydev.duckycore.data.json.DuckyJson;
-import net.maikydev.duckycore.data.json.objects.JsonObject;
 import net.maikydev.duckycore.data.yaml.YamlConfig;
+import net.maikydev.nestserver.ducket.ducklet.DuckletController;
+import net.maikydev.nestserver.ducklettest.ExampleRoute;
 import net.maikydev.nestserver.features.access.AccessController;
 import net.maikydev.nestserver.features.devices.DeviceRegistry;
 import net.maikydev.nestserver.features.nests.NestRegistry;
 import net.maikydev.nestserver.features.sceans.SceneRegistry;
 import net.maikydev.nestserver.features.tasks.TasksController;
-import net.maikydev.nestserver.routes.admin.TasksHandler;
-import net.maikydev.nestserver.routes.device.DeviceHandler;
-import net.maikydev.nestserver.routes.nest.NestHandler;
-import net.maikydev.nestserver.routes.scene.SceneHandler;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.concurrent.Executors;
+import net.maikydev.nestserver.routes.admin.TasksRoute;
+import net.maikydev.nestserver.routes.device.DeviceRoute;
+import net.maikydev.nestserver.routes.nest.NestRoute;
+import net.maikydev.nestserver.routes.scene.SceneRoute;
 
 @Getter
 public enum NestServer {
@@ -30,7 +22,6 @@ public enum NestServer {
     private YamlConfig devicesConfig;
     private YamlConfig nestsConfig;
     private YamlConfig data;
-    private HttpServer server;
 
     private AccessController accessController;
     private SceneRegistry sceneRegistry;
@@ -38,17 +29,25 @@ public enum NestServer {
     private TasksController tasksController;
 
     public void onStart() {
-//        this.config = YamlConfig.fromFileName("config.yml");
-//        this.devicesConfig = YamlConfig.fromFileName("devices.yml");
-//        this.nestsConfig = YamlConfig.fromFileName("nests.yml");
-//        this.data = YamlConfig.fromFileName("data.yml");
-        this.config = YamlConfig.fromFile(new File("config.yml"));
-        this.devicesConfig = YamlConfig.fromFile(new File("devices.yml"));
-        this.nestsConfig = YamlConfig.fromFile(new File("nests.yml"));
-        this.data = YamlConfig.fromFile(new File("data.yml"));
+        this.config = YamlConfig.fromFileName("config.yml");
+        this.devicesConfig = YamlConfig.fromFileName("devices.yml");
+        this.nestsConfig = YamlConfig.fromFileName("nests.yml");
+        this.data = YamlConfig.fromFileName("data.yml");
+//        this.config = YamlConfig.fromFile(new File("config.yml"));
+//        this.devicesConfig = YamlConfig.fromFile(new File("devices.yml"));
+//        this.nestsConfig = YamlConfig.fromFile(new File("nests.yml"));
+//        this.data = YamlConfig.fromFile(new File("data.yml"));
         loadConfigs();
         tasksController.start();
-        startWebServer();
+        DuckletController controller = DuckletController.createController(8080, 10);
+        if (controller == null)
+            return;
+        controller.addRoute(new ExampleRoute());
+        controller.addRoute(new DeviceRoute());
+        controller.addRoute(new NestRoute());
+        controller.addRoute(new SceneRoute());
+        controller.addRoute(new TasksRoute(tasksController));
+        controller.startController();
     }
 
     private void loadConfigs() {
@@ -59,21 +58,5 @@ public enum NestServer {
         tasksController = new TasksController().loadTasks(data, "tasks");
     }
 
-    private void startWebServer() {
-        HashMap<String, HttpHandler> handlers = new HashMap<>();
-        handlers.put("/api/v1/device", new DeviceHandler());
-        handlers.put("/api/v1/scene", new SceneHandler());
-        handlers.put("/api/v1/nests", new NestHandler());
-        handlers.put("/api/v1/tasks", new TasksHandler());
-
-        try {
-            this.server = HttpServer.create(new InetSocketAddress(8000), 0);
-            handlers.forEach((path, handler) -> this.server.createContext(path, handler));
-            this.server.setExecutor(Executors.newFixedThreadPool(10));
-            this.server.start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }

@@ -37,7 +37,6 @@ public class HttpUtils {
                 map.put(matcher.group(1), matcher.group(2));
             }
 
-            System.out.println(map);
             return map;
         }
     }
@@ -45,7 +44,6 @@ public class HttpUtils {
     public static void respondWithJson(HttpExchange exchange, int code, JsonEntity json) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "application/json");
         String jsonString = DuckyJson.deserialization(json);
-        System.out.println(jsonString);
         exchange.sendResponseHeaders(code, (long)jsonString.length());
         OutputStream os = exchange.getResponseBody();
         os.write(jsonString.getBytes());
@@ -65,7 +63,6 @@ public class HttpUtils {
         for(String key : placeholder.keySet()) {
             newString = newString.replaceAll("%" + key + "%", placeholder.get(key));
         }
-        System.out.println(newString);
         return newString;
     }
 

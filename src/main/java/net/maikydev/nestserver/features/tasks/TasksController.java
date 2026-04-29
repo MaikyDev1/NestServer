@@ -49,6 +49,7 @@ public class TasksController {
      * @param task The task object to be runed and saved!
      */
     public void addTask(String group, Task task) {
+        // TODO: Add a way to filter this and update if its already!
         task.saveToConfig(NestServer.SERVER.getData(), "tasks." + group);
         if (tasks.containsKey(group)) {
             tasks.get(group).add(task);
@@ -75,12 +76,13 @@ public class TasksController {
      * Remove an entire group with all its tasks!
      * @param group the group name!
      */
-    public void removeGroup(String group) {
+    public boolean removeGroup(String group) {
         if (!hasGroup(group))
-            return;
+            return false;
         NestServer.SERVER.getData().getSubConfiguration("tasks").remove(group);
         NestServer.SERVER.getData().saveConfig();
         tasks.remove(group);
+        return true;
     }
 
     public boolean hasGroup(String group) {

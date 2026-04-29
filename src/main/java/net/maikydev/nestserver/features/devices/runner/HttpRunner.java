@@ -37,7 +37,6 @@ public final class HttpRunner implements Runner {
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(this.buildUrl(placeholders)).GET().build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Body: " + response.body());
             return switch (responseType) {
                 case "FORWARD" -> (JsonObject) DuckyJson.serialization(response.body());
                 case "NOTHING" -> JsonObject.newJsonObject();
@@ -61,7 +60,6 @@ public final class HttpRunner implements Runner {
                     .append("=")
                     .append(URLEncoder.encode(HttpUtils.applyPlaceholders(this.params.get(key), placeholders), StandardCharsets.UTF_8)).append("&");
         }
-
         return URI.create(HttpUtils.applyPlaceholders(newUrl.toString(), placeholders));
     }
 

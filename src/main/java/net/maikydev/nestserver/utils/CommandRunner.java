@@ -26,16 +26,13 @@ public class CommandRunner {
             switch (matcher.group(1)) {
                 case "SAY": {
                     if (!DeviceRegistry.DEVICE.deviceExists(matcher.group(2))) {
-                        System.out.println("Ohooo!");
                         break;
                     }
-                    System.out.println(matcher.group(2));
                     break;
                 }
                 case "RUN":
                 case "DEVICE": {
                     if (!DeviceRegistry.DEVICE.deviceExists(matcher.group(2))) continue;
-                    System.out.println(matcher.group(2) + " | " + matcher.group(3));
                     DeviceRegistry.DEVICE.getDevice(matcher.group(2)).runAction(matcher.group(3), null);
                     break;
                 }
