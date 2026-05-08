@@ -43,6 +43,11 @@ public class DuckletResponse {
         return new DuckletResponse().setCode(404);
     }
 
+    // 500
+    public static DuckletResponse internalServerError() {
+        return new DuckletResponse().setCode(500);
+    }
+
     public DuckletResponse sendJson(String json) {
         this.responseType = ResponseType.JSON;
         this.content = json;

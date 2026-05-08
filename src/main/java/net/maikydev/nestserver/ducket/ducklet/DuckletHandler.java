@@ -67,7 +67,6 @@ public class DuckletHandler {
     }
 
     protected void handle(HttpExchange exchange, String url) throws IOException, DuckletHandlerException {
-        System.out.println(url);
         Map<String, String> query = null;
         String queryString = exchange.getRequestURI().getQuery();
         if (queryString != null && !queryString.isEmpty()) {

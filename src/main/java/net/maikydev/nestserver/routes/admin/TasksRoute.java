@@ -1,6 +1,7 @@
 package net.maikydev.nestserver.routes.admin;
 
 import net.maikydev.duckycore.data.json.objects.JsonArray;
+import net.maikydev.duckycore.data.json.objects.JsonEntity;
 import net.maikydev.duckycore.data.json.objects.JsonObject;
 import net.maikydev.nestserver.ducket.exchange.DuckletResponse;
 import net.maikydev.nestserver.ducket.annotations.RequestBody;
@@ -51,11 +52,24 @@ public class TasksRoute {
 
     @PostRequest
     @RequestMapping("/new")
-    public DuckletResponse newTask(@RequestBody JsonObject object) {
-        if (object == null)
+    public DuckletResponse newTask(@RequestBody JsonEntity body) {
+        if (body == null)
             return DuckletResponse.badRequest().sendJson("error", "You must include a JSON body with the task configuration!");
+        JsonObject object = (JsonObject) body;
         tasksController.addTask(object.findKey("group").getString(), Task.wrapTaskFromJson(object));
-        return DuckletResponse.ok().sendJson("error", "Saved new task!");
+        return DuckletResponse.ok().sendJson("success", "Saved new task!");
+    }
+
+    @PostRequest
+    @RequestMapping("/change")
+    public DuckletResponse changeTask(@RequestBody JsonEntity body) {
+        if (body == null)
+            return DuckletResponse.badRequest().sendJson("error", "You must include a JSON body with the task configuration!");
+        JsonObject object = (JsonObject) body;
+        tasksController.changeTask(object.findKey("from_group").getString(),
+                object.findKey("group").getString(), object.findKey("from_id").getString(),
+                Task.wrapTaskFromJson(object));
+        return DuckletResponse.ok().sendJson("success", "Changed the task!");
     }
 
     @PostRequest

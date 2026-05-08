@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import net.maikydev.nestserver.ducket.annotations.RequestMapping;
 import net.maikydev.nestserver.ducket.exception.DuckletHandlerException;
+import net.maikydev.nestserver.ducket.exchange.DuckletResponse;
 import net.maikydev.nestserver.ducket.utils.SimpleLogger;
 
 import java.io.IOException;
@@ -18,6 +19,10 @@ public class DuckletController implements HttpHandler {
 
     private HashMap<String, DuckletHandler> routes;
 
+    private DuckletResponse notFound;
+    private DuckletResponse internalServerError;
+    private DuckletResponse notAuthenticated;
+
     private HttpServer server;
 
     private DuckletController() {};
@@ -29,8 +34,11 @@ public class DuckletController implements HttpHandler {
      * @return a new ducklet controller
      */
     public static DuckletController createController(int port, int threads) {
-        SimpleLogger.info("Starting Ducklet Lightweight web client. [" + VERSION + "]");
+        SimpleLogger.info("Starting Ducklet Lightweight Web Server. [" + VERSION + "]");
         DuckletController duckletController = new DuckletController();
+        duckletController.notFound = DuckletResponse.notFound().sendText("Not found");
+        duckletController.internalServerError = DuckletResponse.internalServerError().sendText("Internal server error");
+        duckletController.notAuthenticated = DuckletResponse.badRequest().sendText("Bad request");
         duckletController.routes = new HashMap<>();
         try {
             duckletController.server = HttpServer.create(new InetSocketAddress(port), 0);
@@ -76,19 +84,23 @@ public class DuckletController implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) {
+    public void handle(HttpExchange exchange) throws IOException {
         String reqUrl = exchange.getRequestURI().getPath();
         for (String mapping : routes.keySet()) {
             String hasNext = hasNext(mapping, reqUrl);
             if (hasNext != null) {
                 try {
                     routes.get(mapping).handle(exchange, hasNext);
+                    return;
                 } catch (IOException | DuckletHandlerException e) {
                     SimpleLogger.error(e.getMessage());
                 }
+                internalServerError.respond(exchange);
                 return;
             }
         }
+        notFound.respond(exchange);
+        return;
     }
 
     private String hasNext(String mapping, String request) {

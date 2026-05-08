@@ -84,7 +84,8 @@ public class DuckletRequest {
     }
 
     public DuckletResponse makeHttpRequest() throws IOException, InterruptedException {
-        HttpRequest.Builder request = HttpRequest.newBuilder().uri(computeURI());
+        URI uri = computeURI();
+        HttpRequest.Builder request = HttpRequest.newBuilder().uri(uri);
         if (headers != null)
             headers.forEach(hdr -> request.setHeader(hdr.name(), hdr.value()));
         HttpResponse<String> response = HttpClient.newHttpClient().send(request.build(), HttpResponse.BodyHandlers.ofString());

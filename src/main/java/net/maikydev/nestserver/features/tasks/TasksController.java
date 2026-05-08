@@ -2,6 +2,7 @@ package net.maikydev.nestserver.features.tasks;
 
 import net.maikydev.duckycore.data.yaml.YamlConfig;
 import net.maikydev.nestserver.NestServer;
+import net.maikydev.nestserver.features.nests.Nest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,14 +50,23 @@ public class TasksController {
      * @param task The task object to be runed and saved!
      */
     public void addTask(String group, Task task) {
-        // TODO: Add a way to filter this and update if its already!
+        if (hasTaskByGroup(group, task.getId()))
+            removeTask(group, task.getId());
+
         task.saveToConfig(NestServer.SERVER.getData(), "tasks." + group);
         if (tasks.containsKey(group)) {
             tasks.get(group).add(task);
             return;
         }
+
         tasks.put(group, new ArrayList<>());
         tasks.get(group).add(task);
+    }
+
+    public void changeTask(String fromGroup, String toGroup, String fromId, Task task) {
+        if (hasTaskByGroup(fromGroup, fromId))
+            removeTask(fromGroup, fromId);
+        addTask(toGroup, task);
     }
 
     /**
