@@ -1,14 +1,14 @@
 package net.maikydev.nestserver.routes.admin;
 
+import eu.duckee.duckletwebserver.annotations.http_types.GetRequest;
+import eu.duckee.duckletwebserver.annotations.http_types.PostRequest;
+import eu.duckee.duckletwebserver.annotations.request.RequestBody;
+import eu.duckee.duckletwebserver.annotations.request.RequestMapping;
+import eu.duckee.duckletwebserver.annotations.request.RequestUrlParam;
+import eu.duckee.duckletwebserver.exchange.DuckletResponse;
 import net.maikydev.duckycore.data.json.objects.JsonArray;
 import net.maikydev.duckycore.data.json.objects.JsonEntity;
 import net.maikydev.duckycore.data.json.objects.JsonObject;
-import net.maikydev.nestserver.ducket.exchange.DuckletResponse;
-import net.maikydev.nestserver.ducket.annotations.RequestBody;
-import net.maikydev.nestserver.ducket.annotations.RequestMapping;
-import net.maikydev.nestserver.ducket.annotations.RequestUrlParam;
-import net.maikydev.nestserver.ducket.annotations.http_types.GetRequest;
-import net.maikydev.nestserver.ducket.annotations.http_types.PostRequest;
 import net.maikydev.nestserver.features.tasks.Task;
 import net.maikydev.nestserver.features.tasks.TasksController;
 
@@ -82,7 +82,7 @@ public class TasksRoute {
     }
 
     @PostRequest
-    @RequestMapping("/delete/[group]]")
+    @RequestMapping("/delete/[group]")
     public DuckletResponse deleteAllGroup(@RequestUrlParam("group") String groupKey) {
         if (tasksController.removeGroup(groupKey))
             return DuckletResponse.ok().sendJson("success", "Removed group!");

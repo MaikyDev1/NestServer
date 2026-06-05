@@ -1,0 +1,22 @@
+accounts:
+  ewelink:
+    username: "MaikyDev"
+    password: "Password"
+
+# Mode: none, key
+security:
+  mode: none
+
+security_key:
+  mode: key
+  keys:
+    key-all:
+      key: "miaw"
+      access: ["all"]
+    key-admin:
+      key: "dafiusnfdjisdn"
+      access: ["devices", "scene"]
+
+# Please be aware that any %variable_name% will be replaced with its value
+placeholders:
+  centrala: 10.0.0.200

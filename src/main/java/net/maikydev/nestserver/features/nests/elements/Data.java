@@ -23,7 +23,8 @@ public class Data implements Element {
                 config.contains(path + ".meta.title") ? config.getString(path + ".meta.title") : "No Title",
                 config.contains(path + ".meta.description") ? config.getString(path + ".meta.description") : null,
                 config.contains(path + ".meta.icon") ? config.getString(path + ".meta.icon") : "tabler:file-unknown",
-                config.contains(path + ".meta.color") ? config.getString(path + ".meta.color") : "#7315d1"
+                config.contains(path + ".meta.color") ? config.getString(path + ".meta.color") : "#7315d1",
+                config.contains(path + ".meta.hide_from_main") ? config.getBoolean(path + ".meta.hide_from_main") : false
         );
         DeviceCall getStateDevice = DeviceCall.wrapFromConfig(config, path + ".value");
         return new Data(

@@ -26,7 +26,8 @@ public class Scene {
                 config.getString(path + ".title"),
                 config.contains(path + ".description") ? config.getString(path + ".description") : "",
                 config.getString(path + ".icon"),
-                config.contains(path + ".color") ? config.getString(path + ".color") : ""
+                config.contains(path + ".color") ? config.getString(path + ".color") : "",
+                config.contains(path + ".meta.hide_from_main") ? config.getBoolean(path + ".meta.hide_from_main") : false
         );
         scene.sceneType = SceneType.valueOf(config.getString(path + ".type").toUpperCase(Locale.ROOT));
         switch (scene.sceneType) {

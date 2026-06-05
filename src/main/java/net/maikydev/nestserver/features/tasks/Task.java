@@ -75,7 +75,6 @@ public class Task {
 
     public void onTick() {
         if (timing.itsTheTimeToRun()) {
-            System.out.println("Running: " + id);
             CommandRunner.runCommands(commands);
         }
     }

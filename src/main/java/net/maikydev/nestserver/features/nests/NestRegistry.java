@@ -5,6 +5,7 @@ import net.maikydev.duckycore.data.yaml.YamlConfig;
 import net.maikydev.nestserver.NestServer;
 import net.maikydev.nestserver.features.devices.Device;
 import net.maikydev.nestserver.features.nests.nests.BasicNest;
+import net.maikydev.nestserver.features.nests.nests.RemoteNest;
 import net.maikydev.nestserver.features.nests.nests.ThermostatNest;
 import net.maikydev.nestserver.features.sceans.Scene;
 import net.maikydev.nestserver.features.sceans.SceneRegistry;
@@ -21,6 +22,7 @@ public class NestRegistry {
             Nest nest = switch (config.getString(path + "." + key + ".meta.ui_type").toUpperCase()) {
                 case "BASIC_NEST" -> BasicNest.wrapFromConfig(config, path + "." + key);
                 case "THERMOSTAT_NEST" -> ThermostatNest.wrapFromConfig(config, path + "." + key);
+                case "REMOTE_NEST" -> RemoteNest.wrapFromConfig(config, path + "." + key);
                 default -> null;
             };
             if (nest != null)

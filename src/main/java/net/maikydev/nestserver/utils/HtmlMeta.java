@@ -2,7 +2,7 @@ package net.maikydev.nestserver.utils;
 
 import net.maikydev.duckycore.data.json.objects.JsonObject;
 
-public record HtmlMeta(String title, String description, String icon, String color) {
+public record HtmlMeta(String title, String description, String icon, String color, boolean hideFromMain) {
 
     public JsonObject toJson() {
         JsonObject o = JsonObject.newJsonObject();
@@ -10,6 +10,7 @@ public record HtmlMeta(String title, String description, String icon, String col
         if (description != null) o.addNewField("description", description);
         if (title != null) o.addNewField("title", title);
         if (icon != null) o.addNewField("icon", icon);
+        o.addNewField("hide_from_main", hideFromMain);
         return o;
     }
 

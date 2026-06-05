@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -19,6 +19,11 @@
             <groupId>com.github.MaikyDev1</groupId>
             <artifactId>DuckyCore</artifactId>
             <version>1.0-APLHA</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MaikyDev1</groupId>
+            <artifactId>DuckletWebServer</artifactId>
+            <version>v0.1-ALPHA</version>
         </dependency>
     </dependencies>
 

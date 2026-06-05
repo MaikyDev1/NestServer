@@ -21,7 +21,7 @@ public class HttpRunnerBuilder implements RunnerBuilder {
                 config.getString(path + ".url"),
                 params,
                 config.contains(path + ".method") ? config.getString(path + ".method") : null,
-                config.getString(path + ".response.mode")
+                config.contains(path + ".response.mode") ? config.getString(path + ".response.mode") : "FORWARD"
         );
     }
 

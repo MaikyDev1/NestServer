@@ -1,0 +1,31 @@
+#run_at:
+#  days: [ mon, wed, fri ]
+#  times: "09:00"
+
+#run_at:
+#  time: "09:00"
+
+#run_at:
+#  time: "09:00"
+
+# run any [number] hours
+
+#run_at:
+#  hours: [number]
+
+tasks:
+  balcony:
+    at_sunrise:
+      schedule:
+        time: '9:00'
+      commands:
+        - '[DEVICE] leds turn_off'
+        - '[DEVICE] bulbs turn_off'
+        - '[DEVICE] wall turn_off'
+    at_sunset:
+      schedule:
+        time: '18:30'
+      commands:
+        - '[DEVICE] leds turn_on'
+        - '[DEVICE] bulbs turn_on'
+        - '[DEVICE] wall turn_on'

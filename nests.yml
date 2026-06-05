@@ -141,16 +141,16 @@ nests:
       color: "#7735b5"
       icon: "mdi:remote"
     display:
-      - [" ", " ", " ", "tv_on"]
-      - ["volume", " ", " ", "woofer"]
-      - ["volume", " ", " ", "woofer"]
-      - [ "volume", " ", " ", "woofer" ]
-      - [" ", " ", " ", " "]
+      - ["", "", "", "on"]
+      - ["volume", "", "", "woofer"]
+      - ["volume", "", "", "woofer"]
+      - [ "volume", "", "", "woofer" ]
+      - ["", "", "", ""]
       - ["tp", "tp", "tp", "tp"]
       - ["tp", "tp", "tp", "tp"]
       - ["tp", "tp", "tp", "tp"]
       - ["tp", "tp", "tp", "tp"]
-      - ["back", " ", " ", "menu"]
+      - ["back", "", "", "menu"]
     buttons:
       "on":
         type: "power"
@@ -166,21 +166,21 @@ nests:
       woofer:
         type: "stepper"
         actions:
-        up:
-          device: "apple_tv_remote"
-          action: "get_state"
-        down:
-          device: "apple_tv_remote"
-          action: "get_state"
+          up:
+            device: "apple_tv_remote"
+            action: "get_state"
+          down:
+            device: "apple_tv_remote"
+            action: "get_state"
       volume:
         type: "stepper"
         actions:
-        up:
-          device: "apple_tv_remote"
-          action: "get_state"
-        down:
-          device: "apple_tv_remote"
-          action: "get_state"
+          up:
+            device: "apple_tv_remote"
+            action: "get_state"
+          down:
+            device: "apple_tv_remote"
+            action: "get_state"
       tp:
         type: "trackpad"
         actions:

@@ -34,7 +34,8 @@ public class ThermostatNest implements Nest {
                 config.contains(path + ".meta.title") ? config.getString(path + ".meta.title") : "No Title",
                 config.contains(path + ".meta.description") ? config.getString(path + ".meta.description") : null,
                 config.contains(path + ".meta.icon") ? config.getString(path + ".meta.icon") : "",
-                config.contains(path + ".meta.color") ? config.getString(path + ".meta.color") : "#ffffff"
+                config.contains(path + ".meta.color") ? config.getString(path + ".meta.color") : "#ffffff",
+                config.contains(path + ".meta.hide_from_main") ? config.getBoolean(path + ".meta.hide_from_main") : false
         );
         thermostatNest.id = path.substring(path.lastIndexOf('.') + 1);
         thermostatNest.thermostatConfiguration = ThermostatConfiguration.wrapFromConfig(config, path + ".configuration");
