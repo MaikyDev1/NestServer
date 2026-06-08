@@ -40,7 +40,7 @@ public class RemoteElement implements Element {
     public JsonObject toJsonObject() {
         JsonObject jo = JsonObject.newJsonObject();
         jo.addNewField("type", type);
-        if (text != null && text != "") jo.addNewField("text", type);
+        if (text != null && text != "") jo.addNewField("text", text);
         if (actionsList.size() == 1) {
             jo.addNewField("action", actionsList.get("default").toJson());
         } else {
